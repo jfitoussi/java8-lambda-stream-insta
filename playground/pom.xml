@@ -13,7 +13,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>java8-code-kata</groupId>
+            <groupId>java8-lambda-stream-insta</groupId>
             <artifactId>common-test-tool</artifactId>
         </dependency>
     </dependencies>

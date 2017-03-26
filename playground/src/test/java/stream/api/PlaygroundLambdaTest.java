@@ -25,9 +25,9 @@ public class PlaygroundLambdaTest extends ClassicOnlineStore {
 
         assertThat(numbers, is(Arrays.asList(1, 10, 100, 1000)));
 
-        numbers = Arrays.asList(1, 2, 6, 4);
+        numbers = Arrays.asList(1, 2, 5, 4);
         Collections.sort(numbers, (o1, o2) -> o1.compareTo(o2));
-        assertThat(numbers, is(Arrays.asList(1, 2, 4, 6)));
+        assertThat(numbers, is(Arrays.asList(1, 2, 4, 5)));
     }
 
     @Test
