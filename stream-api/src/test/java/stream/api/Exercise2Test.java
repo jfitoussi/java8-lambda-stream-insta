@@ -5,6 +5,7 @@ import common.test.tool.dataset.ClassicOnlineStore;
 import common.test.tool.entity.Customer;
 import common.test.tool.entity.Item;
 import common.test.tool.util.AssertUtil;
+import java.util.Collections;
 
 import org.junit.Test;
 
@@ -19,6 +20,9 @@ import static org.junit.Assert.*;
 
 public class Exercise2Test extends ClassicOnlineStore {
 
+    private Function<Customer, Integer> getAgeFunction = c ->{return c.getAge();};
+    private Function<Customer, String> getNameFunction = c ->{return c.getName();};
+
     @Easy @Test
     public void sortByAge() {
         List<Customer> customerList = this.mall.getCustomerList();
@@ -27,7 +31,16 @@ public class Exercise2Test extends ClassicOnlineStore {
          * Create a stream with ascending ordered age values.
          * Use {@link Stream#sorted} to sort them.
          */
-        Stream<Integer> sortedAgeStream = null;
+        //Function<Customer, Integer> getAgeFunction = c ->{return c.getAge();};
+        
+        Comparator<Customer> comparator = (Customer c1, Customer c2)-> {
+            return c1.getAge().compareTo(c2.getAge());
+        };
+        
+        //Collections.sort(customerList);
+        
+        Stream<Integer> sortedAgeStream = customerList.stream().sorted(comparator).map(getAgeFunction);
+        
 
         List<Integer> sortedAgeList = sortedAgeStream.collect(Collectors.toList());
         assertThat(sortedAgeList, contains(21, 22, 22, 26, 27, 28, 32, 35, 36, 38));
@@ -40,8 +53,13 @@ public class Exercise2Test extends ClassicOnlineStore {
         /**
          * Create a stream with descending ordered age values.
          */
-        Comparator<Integer> descOrder = null;
-        Stream<Integer> sortedAgeStream = null;
+        //
+        //Function<Customer, Integer> getAgeFunction = c ->{return c.getAge();};
+
+        Comparator<Integer> descOrder = (Integer nb1, Integer nb2)->{
+            return - nb1.compareTo(nb2);
+        };
+        Stream<Integer> sortedAgeStream = customerList.stream().map(getAgeFunction).sorted(descOrder);
 
         assertTrue(AssertUtil.isLambda(descOrder));
         List<Integer> sortedAgeList = sortedAgeStream.collect(Collectors.toList());
@@ -55,6 +73,14 @@ public class Exercise2Test extends ClassicOnlineStore {
         /**
          * Create a stream with top 3 rich customers using {@link Stream#limit} to limit the size of the stream
          */
+
+        Comparator<Customer> comparator = (Customer c1, Customer c2)-> {
+            return c1.getBudget().compareTo(c2.getBudget());
+        };
+
+
+
+
         Stream<String> top3RichCustomerStream = null;
 
         List<String> top3RichCustomerList = top3RichCustomerStream.collect(Collectors.toList());
