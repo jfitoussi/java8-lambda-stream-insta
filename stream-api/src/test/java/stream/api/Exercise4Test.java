@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.is;
@@ -23,7 +24,7 @@ public class Exercise4Test extends ClassicOnlineStore {
          * Find the first customer who registered this online store by using {@link Stream#findFirst}
          * The customerList are ascending ordered by registered timing.
          */
-        Optional<Customer> firstCustomer = null;
+        Optional<Customer> firstCustomer = customerList.stream().findFirst();
 
         assertThat(firstCustomer.get(), is(customerList.get(0)));
     }
@@ -35,7 +36,9 @@ public class Exercise4Test extends ClassicOnlineStore {
         /**
          * Check whether any customer older than 40 exists or not, by using {@link Stream#anyMatch}
          */
-        boolean olderThan40Exists = true;
+        final int ageMax = 40;
+        Predicate<Customer> plusDe40 = customer -> {return customer.getAge() > ageMax;};
+        boolean olderThan40Exists = customerList.stream().anyMatch(plusDe40);
 
         assertThat(olderThan40Exists, is(false));
     }
@@ -47,7 +50,9 @@ public class Exercise4Test extends ClassicOnlineStore {
         /**
          * Check whether all customer are older than 20 or not, by using {@link Stream#allMatch}
          */
-        boolean allOlderThan20 = false;
+        final int ageMax = 20;
+        Predicate<Customer> plusDe20 = customer -> {return customer.getAge() > ageMax;};
+        boolean allOlderThan20 = customerList.stream().allMatch(plusDe20);
 
         assertThat(allOlderThan20, is(true));
     }
@@ -60,7 +65,8 @@ public class Exercise4Test extends ClassicOnlineStore {
          * Confirm that none of the customer has empty list for their {@link Customer.wantToBuy}
          * by using {@link Stream#noneMatch}
          */
-        boolean everyoneWantsSomething = false;
+        Predicate<Customer> hasEmptyList = customer -> {return customer.getWantToBuy().isEmpty();};
+        boolean everyoneWantsSomething = customerList.stream().noneMatch(hasEmptyList);
 
         assertThat(everyoneWantsSomething, is(true));
     }

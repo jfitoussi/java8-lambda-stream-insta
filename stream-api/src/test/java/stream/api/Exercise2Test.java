@@ -75,13 +75,10 @@ public class Exercise2Test extends ClassicOnlineStore {
          */
 
         Comparator<Customer> comparator = (Customer c1, Customer c2)-> {
-            return c1.getBudget().compareTo(c2.getBudget());
+            return -c1.getBudget().compareTo(c2.getBudget());
         };
 
-
-
-
-        Stream<String> top3RichCustomerStream = null;
+        Stream<String> top3RichCustomerStream = customerList.stream().sorted(comparator).map(getNameFunction).limit(3);
 
         List<String> top3RichCustomerList = top3RichCustomerStream.collect(Collectors.toList());
         assertThat(top3RichCustomerList, contains("Diana", "Andrew", "Chris"));
@@ -94,7 +91,7 @@ public class Exercise2Test extends ClassicOnlineStore {
         /**
          * Create a stream with distinct age values using {@link Stream#distinct}
          */
-        Stream<Integer> distinctAgeStream = null;
+        Stream<Integer> distinctAgeStream = customerList.stream().map(getAgeFunction).distinct();
 
         List<Integer> distinctAgeList = distinctAgeStream.collect(Collectors.toList());
         assertThat(distinctAgeList, contains(22, 27, 28, 38, 26, 32, 35, 21, 36));
@@ -108,8 +105,9 @@ public class Exercise2Test extends ClassicOnlineStore {
          * Create a stream with items' names stored in {@link Customer.wantToBuy}
          * Use {@link Stream#flatMap} to create a stream from each element of a stream.
          */
-        Function<Customer, Stream<Item>> getItemStream = null;
-        Stream<String> itemStream = null;
+        Function<Customer, Stream<Item>> getItemStream = customer -> {return customer.getWantToBuy().stream();};
+        Function<Item, String> getNameItemFunction = item -> item.getName();
+        Stream<String> itemStream = customerList.stream().flatMap(getItemStream).map(getNameItemFunction);
 
         assertTrue(AssertUtil.isLambda(getItemStream));
         List<String> itemList = itemStream.collect(Collectors.toList());

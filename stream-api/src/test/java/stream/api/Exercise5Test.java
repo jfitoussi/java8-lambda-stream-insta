@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,7 +30,9 @@ public class Exercise5Test extends ClassicOnlineStore {
         /**
          * Create a list of customer names by using {@link Stream#collect} and {@link Collectors#toList}
          */
-        List<String> nameList = null;
+        Function<Customer, String> getNameFunction = c -> {return c.getName();};
+
+        List<String> nameList = customerList.stream().map(getNameFunction).collect(Collectors.toList());
 
         assertThat(nameList, contains("Joe", "Steven", "Patrick", "Diana", "Chris", "Kathy", "Alice", "Andrew",
                                       "Martin", "Amy"));
@@ -41,7 +45,8 @@ public class Exercise5Test extends ClassicOnlineStore {
         /**
          * Create a set of customer age by using {@link Stream#collect} and {@link Collectors#toSet}
          */
-        Set<Integer> ageSet = null;
+        Function<Customer, Integer> getAgeFunction = c -> {return c.getAge();};
+        Set<Integer> ageSet = customerList.stream().map(getAgeFunction).collect(Collectors.toSet());
 
         assertThat(ageSet, hasSize(9));
         assertThat(ageSet, hasItems(21, 22, 26, 27, 28, 32, 35, 36, 38));
@@ -54,7 +59,8 @@ public class Exercise5Test extends ClassicOnlineStore {
         /**
          * Create a csv string of customer names in brackets "[]" by using {@link Collectors#joining}
          */
-        String string = null;
+        Function<Customer, String> getNameFunction = c -> {return c.getName();};
+        String string = customerList.stream().map(getNameFunction).collect(Collectors.joining(",","[","]"));
 
         assertThat(string, is("[Joe,Steven,Patrick,Diana,Chris,Kathy,Alice,Andrew,Martin,Amy]"));
     }
@@ -67,7 +73,7 @@ public class Exercise5Test extends ClassicOnlineStore {
          * Get the oldest customer by using {@link Collectors#maxBy}.
          * Don't use any intermediate operations.
          */
-        Optional<Customer> oldestCustomer = null;
+        Optional<Customer> oldestCustomer = customerList.stream().collect(Collectors.maxBy((c1, c2) -> c1.getAge().compareTo(c2.getAge())));
 
         assertThat(oldestCustomer.get(), is(customerList.get(3)));
     }
@@ -80,7 +86,7 @@ public class Exercise5Test extends ClassicOnlineStore {
          * Create a map of age as key and number of customers as value
          * using {@link Collectors#groupingBy} and {@link Collectors#counting}
          */
-        Map<Integer, Long> ageDistribution = null;
+        Map<Integer, Long> ageDistribution = customerList.stream().collect(Collectors.groupingBy(Customer::getAge, Collectors.counting()));
 
         assertThat(ageDistribution.size(), is(9));
         ageDistribution.forEach((k, v) -> {
