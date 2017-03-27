@@ -30,12 +30,14 @@ public class Exercise9Test extends ClassicOnlineStore {
     public void simplestStringJoin() {
         List<Customer> customerList = this.mall.getCustomerList();
 
-        /**
+        /*
          * Implement a {@link Collector} which can create a String with comma separated names shown in the assertion.
          * The collector will be used by serial stream.
          */
-        Supplier<Object> supplier = null;
-        BiConsumer<Object, String> accumulator = null;
+        Supplier<Object> supplier = customerList::stream;
+        BiConsumer<Object, String> accumulator = (x, y) -> {
+            supplier.get();
+        };
         BinaryOperator<Object> combiner = null;
         Function<Object, String> finisher = null;
 
