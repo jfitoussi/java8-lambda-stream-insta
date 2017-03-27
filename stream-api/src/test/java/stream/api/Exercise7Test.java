@@ -45,8 +45,7 @@ public class Exercise7Test extends ClassicOnlineStore {
          * Create {@link LongStream} with all items' prices using {@link Stream#mapToLong}
          * Then calculate the sum of prices using {@link LongStream#sum}
          */
-        Function<Shop, Stream<Item>> getShopItems = shop -> shop.getItemList().stream();
-        LongStream priceStream = shopList.stream().flatMap(getShopItems).mapToLong(item -> item.getPrice());
+        LongStream priceStream = shopList.stream().flatMap(shop -> shop.getItemList().stream()).mapToLong(item -> item.getPrice());
         long priceSum = priceStream.sum();
 
         assertThat(priceSum, is(60930L));
