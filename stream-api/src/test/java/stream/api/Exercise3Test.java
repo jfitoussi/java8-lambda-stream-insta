@@ -24,7 +24,7 @@ public class Exercise3Test extends ClassicOnlineStore {
          * Count how many items there are in {@link Customer.wantToBuy} using {@link Stream#count}
          */
         long sum = 0L;
-
+        Function<Customer, Stream;
         assertThat(sum, is(32L));
     }
 
