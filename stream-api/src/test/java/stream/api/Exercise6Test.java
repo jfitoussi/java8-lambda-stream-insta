@@ -1,10 +1,12 @@
 package stream.api;
 
 import common.test.tool.annotation.Easy;
+import common.test.tool.entity.Customer;
 
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,8 +20,12 @@ public class Exercise6Test {
         /**
          * Create a stream with string values "a" "b" "c" by using {@link Stream#of}
          */
-        Stream<String> abcStream = null;
+        //Stream<String> abcStream = null;
 
+    	//Optional<Integer> richestCustomer = customerList.stream().map(c -> c.getBudget()).max(comparator);
+    	
+    	//Stream<String> abcStream = abcStream.stream().
+        
         List<String> abcList = abcStream.collect(Collectors.toList());
         assertThat(abcList, contains("a", "b", "c"));
     }

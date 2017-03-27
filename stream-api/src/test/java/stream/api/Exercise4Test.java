@@ -38,15 +38,13 @@ public class Exercise4Test extends ClassicOnlineStore {
         /**
          * Check whether any customer older than 40 exists or not, by using {@link Stream#anyMatch}
          */
-        boolean olderThan40Exists = true;
         
-      
         
-        Predicate<Customer> olderThan40Exists = customer -> customer.getAge() > 40;
-       
-        //Stream<Customer> richCustomerStream = customerList.stream().filter(richCustomerCondition);
+        boolean olderThan40Exists = false;
+        
+        Predicate<Customer> olderThan40ExistsCondition = customer -> customer.getAge() > 40;
 
-        olderThan40Exists = customerList.stream().map(c -> c.getAge()
+        boolean olderThan40ExistsStream = customerList.stream().anyMatch(olderThan40ExistsCondition);
         		
         assertThat(olderThan40Exists, is(false));
     }
@@ -58,8 +56,12 @@ public class Exercise4Test extends ClassicOnlineStore {
         /**
          * Check whether all customer are older than 20 or not, by using {@link Stream#allMatch}
          */
-        boolean allOlderThan20 = false;
+        boolean allOlderThan20 = true;
+        
+        Predicate<Customer> allOlderThan20Condition = customer -> customer.getAge() > 20;
 
+        boolean allOlderThan20ExistsStream = customerList.stream().allMatch(allOlderThan20Condition);
+        
         assertThat(allOlderThan20, is(true));
     }
 
@@ -71,7 +73,11 @@ public class Exercise4Test extends ClassicOnlineStore {
          * Confirm that none of the customer has empty list for their {@link Customer.wantToBuy}
          * by using {@link Stream#noneMatch}
          */
-        boolean everyoneWantsSomething = false;
+        boolean everyoneWantsSomething = true;
+        
+        Predicate<Customer> everyoneWantsSomethingCondition = customer -> customer.getWantToBuy() != null;
+        
+        boolean everyoneWantsSomethingStream = customerList.stream().noneMatch(everyoneWantsSomethingCondition);
 
         assertThat(everyoneWantsSomething, is(true));
     }

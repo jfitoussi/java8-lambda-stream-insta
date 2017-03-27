@@ -29,6 +29,8 @@ public class Exercise5Test extends ClassicOnlineStore {
          * Create a list of customer names by using {@link Stream#collect} and {@link Collectors#toList}
          */
         List<String> nameList = null;
+        
+        
 
         assertThat(nameList, contains("Joe", "Steven", "Patrick", "Diana", "Chris", "Kathy", "Alice", "Andrew",
                                       "Martin", "Amy"));
