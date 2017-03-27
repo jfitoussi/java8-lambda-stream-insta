@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.is;
@@ -23,7 +24,9 @@ public class Exercise4Test extends ClassicOnlineStore {
          * Find the first customer who registered this online store by using {@link Stream#findFirst}
          * The customerList are ascending ordered by registered timing.
          */
-        Optional<Customer> firstCustomer = null;
+       
+        
+        Optional<Customer> firstCustomer = customerList.stream().findFirst();
 
         assertThat(firstCustomer.get(), is(customerList.get(0)));
     }
@@ -36,7 +39,15 @@ public class Exercise4Test extends ClassicOnlineStore {
          * Check whether any customer older than 40 exists or not, by using {@link Stream#anyMatch}
          */
         boolean olderThan40Exists = true;
+        
+      
+        
+        Predicate<Customer> olderThan40Exists = customer -> customer.getAge() > 40;
+       
+        //Stream<Customer> richCustomerStream = customerList.stream().filter(richCustomerCondition);
 
+        olderThan40Exists = customerList.stream().map(c -> c.getAge()
+        		
         assertThat(olderThan40Exists, is(false));
     }
 
