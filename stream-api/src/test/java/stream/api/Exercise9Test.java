@@ -42,6 +42,7 @@ public class Exercise9Test extends ClassicOnlineStore {
         Collector<String, ?, String> toCsv =
             new CollectorImpl<>(supplier, accumulator, combiner, finisher, Collections.emptySet());
         String nameAsCsv = customerList.stream().map(Customer::getName).collect(toCsv);
+
         assertThat(nameAsCsv, is("Joe,Steven,Patrick,Diana,Chris,Kathy,Alice,Andrew,Martin,Amy"));
     }
 
