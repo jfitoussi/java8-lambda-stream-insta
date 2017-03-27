@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.is;
@@ -23,6 +24,7 @@ public class Exercise3Test extends ClassicOnlineStore {
         /**
          * Count how many items there are in {@link Customer.wantToBuy} using {@link Stream#count}
          */
+        Function<Customer, Stream<Item>> countitem = countItem -> countItem.getWantToBuy().stream();
         long sum = 0L;
 
         assertThat(sum, is(32L));
