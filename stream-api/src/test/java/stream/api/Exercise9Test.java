@@ -4,16 +4,12 @@ import common.test.tool.annotation.Difficult;
 import common.test.tool.annotation.Easy;
 import common.test.tool.dataset.ClassicOnlineStore;
 import common.test.tool.entity.Customer;
+import common.test.tool.entity.Item;
 import common.test.tool.util.CollectorImpl;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -34,10 +30,10 @@ public class Exercise9Test extends ClassicOnlineStore {
          * Implement a {@link Collector} which can create a String with comma separated names shown in the assertion.
          * The collector will be used by serial stream.
          */
-        Supplier<Object> supplier = null;
-        BiConsumer<Object, String> accumulator = null;
+        Supplier<Object> supplier = () -> new StringJoiner(",");
+        BiConsumer<Object, String> accumulator = (o, s) -> ((StringJoiner) o).add(s).toString();
         BinaryOperator<Object> combiner = null;
-        Function<Object, String> finisher = null;
+        Function<Object, String> finisher = Object::toString;
 
         Collector<String, ?, String> toCsv =
             new CollectorImpl<>(supplier, accumulator, combiner, finisher, Collections.emptySet());
@@ -54,7 +50,7 @@ public class Exercise9Test extends ClassicOnlineStore {
          * values as {@link Set} of customers who are wanting to buy that item.
          * The collector will be used by parallel stream.
          */
-        Supplier<Object> supplier = null;
+        Supplier<Object> supplier = () -> new HashMap<Item,Set>();
         BiConsumer<Object, Customer> accumulator = null;
         BinaryOperator<Object> combiner = null;
         Function<Object, Map<String, Set<String>>> finisher = null;
