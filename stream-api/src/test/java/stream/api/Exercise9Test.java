@@ -35,7 +35,7 @@ public class Exercise9Test extends ClassicOnlineStore {
          * The collector will be used by serial stream.
          */
         Supplier<Object> supplier = null;
-        BiConsumer<Object, String> accumulator = null;
+        BiConsumer<Object, String> accumulator = (o, s) -> o.toString();
         BinaryOperator<Object> combiner = null;
         Function<Object, String> finisher = null;
 
