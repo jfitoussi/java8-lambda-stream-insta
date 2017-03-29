@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,7 +28,8 @@ public class Exercise2Test extends ClassicOnlineStore {
          * Create a stream with ascending ordered age values.
          * Use {@link Stream#sorted} to sort them.
          */
-        Stream<Integer> sortedAgeStream = null;
+        Function<Customer, Integer> getAge = Customer::getAge;
+        Stream<Integer> sortedAgeStream = customerList.stream().map(getAge).sorted();
 
         List<Integer> sortedAgeList = sortedAgeStream.collect(Collectors.toList());
         assertThat(sortedAgeList, contains(21, 22, 22, 26, 27, 28, 32, 35, 36, 38));
@@ -40,8 +42,9 @@ public class Exercise2Test extends ClassicOnlineStore {
         /**
          * Create a stream with descending ordered age values.
          */
-        Comparator<Integer> descOrder = null;
-        Stream<Integer> sortedAgeStream = null;
+        Function<Customer, Integer> getAge = Customer::getAge;
+        Comparator<Integer> descOrder = (obj1, obj2) -> obj2 - obj1;
+        Stream<Integer> sortedAgeStream = customerList.stream().map(getAge).sorted(descOrder);
 
         assertTrue(AssertUtil.isLambda(descOrder));
         List<Integer> sortedAgeList = sortedAgeStream.collect(Collectors.toList());
@@ -55,7 +58,8 @@ public class Exercise2Test extends ClassicOnlineStore {
         /**
          * Create a stream with top 3 rich customers using {@link Stream#limit} to limit the size of the stream
          */
-        Stream<String> top3RichCustomerStream = null;
+        Comparator<Customer> descOrder = (customer1, customer2) -> customer2.getBudget() - customer1.getBudget();
+        Stream<String> top3RichCustomerStream = customerList.stream().sorted(descOrder).map(Customer::getName).limit(3);
 
         List<String> top3RichCustomerList = top3RichCustomerStream.collect(Collectors.toList());
         assertThat(top3RichCustomerList, contains("Diana", "Andrew", "Chris"));
@@ -68,7 +72,8 @@ public class Exercise2Test extends ClassicOnlineStore {
         /**
          * Create a stream with distinct age values using {@link Stream#distinct}
          */
-        Stream<Integer> distinctAgeStream = null;
+        Function<Customer, Integer> getAge = Customer::getAge;
+        Stream<Integer> distinctAgeStream = customerList.stream().map(getAge).distinct();
 
         List<Integer> distinctAgeList = distinctAgeStream.collect(Collectors.toList());
         assertThat(distinctAgeList, contains(22, 27, 28, 38, 26, 32, 35, 21, 36));
@@ -82,8 +87,8 @@ public class Exercise2Test extends ClassicOnlineStore {
          * Create a stream with items' names stored in {@link Customer.wantToBuy}
          * Use {@link Stream#flatMap} to create a stream from each element of a stream.
          */
-        Function<Customer, Stream<Item>> getItemStream = null;
-        Stream<String> itemStream = null;
+        Function<Customer, Stream<Item>> getItemStream = customer -> customer.getWantToBuy().stream();
+        Stream<String> itemStream = customerList.stream().flatMap(getItemStream).map(Item::getName);
 
         assertTrue(AssertUtil.isLambda(getItemStream));
         List<String> itemList = itemStream.collect(Collectors.toList());
