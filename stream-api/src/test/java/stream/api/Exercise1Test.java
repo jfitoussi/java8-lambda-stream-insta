@@ -28,7 +28,7 @@ public class Exercise1Test extends ClassicOnlineStore {
          * Use lambda expression for Predicate and {@link Stream#filter} for filtering.
          */
         Predicate<Customer> richCustomerCondition = customer -> customer.getBudget() > 10000;
-        Stream<Customer> richCustomerStream = customerList.stream().filter(customer -> customer.getBudget()>10000);
+        Stream<Customer> richCustomerStream = customerList.stream().filter(richCustomerCondition);
 
         assertTrue("Solution for Predicate should be lambda expression", AssertUtil.isLambda(richCustomerCondition));
         List<Customer> richCustomer = richCustomerStream.collect(Collectors.toList());
@@ -45,7 +45,9 @@ public class Exercise1Test extends ClassicOnlineStore {
          * Use method reference(best) or lambda expression(okay) for creating {@link Function} which will
          * convert {@link Customer} to {@link Integer}, and then apply it by using {@link Stream#map}.
          */
-        Function<Customer, Integer> getAgeFunction = toto -> toto.getAge();
+        /*Function<Customer, Integer> getAgeFunction = customer -> customer.getAge();
+        Stream<Integer> ageStream = customerList.stream().map(getAgeFunction);*/
+        Function<Customer, Integer> getAgeFunction = Customer::getAge;
         Stream<Integer> ageStream = customerList.stream().map(getAgeFunction);
 
         assertTrue(AssertUtil.isLambda(getAgeFunction));
