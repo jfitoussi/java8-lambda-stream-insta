@@ -26,6 +26,8 @@ public class Exercise6Test {
     	
     	//Stream<String> abcStream = abcStream.stream().
         
+    	Stream<String> abcStream = Stream.of("a","b","c").limit(3);
+    	
         List<String> abcList = abcStream.collect(Collectors.toList());
         assertThat(abcList, contains("a", "b", "c"));
     }
@@ -35,8 +37,10 @@ public class Exercise6Test {
         /**
          * Create a stream only with multiples of 3, starting from 0, size of 10, by using {@link Stream#iterate}
          */
-        Stream<Integer> numbers = null;
+        //Stream<Integer> numbers = null;
 
+    	Stream<Integer> numbers = Stream.iterate(0,n -> n+3).limit(10);
+    	
         List<Integer> numbersList = numbers.collect(Collectors.toList());
         assertThat(numbersList, contains(0, 3, 6, 9, 12, 15, 18, 21, 24, 27));
     }
